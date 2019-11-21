@@ -1,0 +1,81 @@
+int raio = 220;
+
+void setup(){
+   size (500, 500); 
+}
+
+void draw(){
+  
+  translate (width/2, height/2);
+  background (50);
+  desenhaFundo();
+  segundo();
+  minuto();
+  hora();
+}
+
+void desenhaFundo(){
+  fill (250);
+  stroke(0);
+  circle (0, 0, 2 * raio);
+  
+  for (int i = 0; i < 60 ; i++){
+    
+    float x1 = raio * cos((PI/30)*i);
+    float y1 = raio * sin((PI/30)*i);
+    
+    float x2 = (raio - 10) * cos((PI/30)*i);
+    float y2 = (raio - 10) * sin((PI/30)*i);
+      
+    float x3 = (raio - 20) * cos((PI/30)*i);
+    float y3 = (raio - 20) * sin((PI/30)*i);
+    
+    if( i % 5 != 0){
+      
+      stroke(0);
+      line(x1, y1, x2, y2);
+    } else {
+    
+      stroke(0);
+      line(x1, y1, x3, y3);
+    }   
+  }
+
+  for(int i = 1; i <= 12; i++){
+    
+    float x4 = 180 * cos((PI/6 * i) - (PI/2));
+    float y4 = 180 * sin((PI/6 * i) - (PI/2));
+    
+    fill(0);
+    textSize(15);
+    text(i, x4-8, y4+5);
+  }
+}
+
+void segundo(){
+ float s = second() * PI/30 - PI/2;
+ float sx = (raio - 30) * cos(s);
+ float sy = (raio - 30) * sin(s);
+ stroke(255,0,0);
+ strokeWeight(3);
+ line(0, 0, sx, sy);
+}
+
+void minuto(){
+ float m = (minute() + second()/60.0) * PI/30 - PI/2;
+ float mx = (raio - 30) * cos(m);
+ float my = (raio - 30) * sin(m);
+ stroke(0);
+ strokeWeight(3);
+ line(0, 0, mx, my);
+}
+
+// a função hour() retorna a hora oficial, que em 2019 ainda tem o horário de verão, apesar de não termos aderido.
+void hora(){
+ float h = (hour() + (minute()+(second()/60.0))/60.0) * PI/6 - PI/2;
+ float hx = (raio * 2/3) * cos(h);
+ float hy = (raio * 2/3) * sin(h);
+ stroke(0);
+ strokeWeight(3);
+ line(0, 0, hx, hy);
+}
