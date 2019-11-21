@@ -1,0 +1,54 @@
+void setup(){
+ size (700, 700);
+ loop(); 
+}
+
+float x = 0;
+
+void draw(){
+ background(0);
+ translate(height/2, width/2);
+ 
+ // sol
+ int raioSol = 200;
+ fill(255);
+ circle(0, 0, raioSol);
+ 
+ // terra
+ int raioTerra = 80;
+ float anguloTerra = 0.01 * x;
+ float terraX =  raioSol + 30;
+ float terraY = 0;
+ 
+ float terraX2 =  terraX * cos(anguloTerra) - terraY * sin(anguloTerra);
+ float terraY2 = terraX * sin(anguloTerra) + terraY * cos(anguloTerra);
+ 
+ translate(terraX2, terraY2);
+ fill(255);
+ circle(0, 0, raioTerra);
+ 
+ // lua
+ int raioLua = 30;
+ float anguloLua = 0.025 * x;
+ float luaX =  raioTerra;
+ float luaY = 0;
+ 
+ float luaX2 =  luaX * cos(anguloLua) - luaY * sin(anguloLua);
+ float luaY2 = luaX * sin(anguloLua) + luaY * cos(anguloLua);
+
+ translate(luaX2, luaY2);
+ fill(255);
+ circle(0, 0, raioLua);
+ 
+ terraX =  terraX2;
+ terraY = terraY2;
+ luaX = luaX2;
+ luaY = luaY2;
+ 
+ update(); 
+}
+
+void update(){
+  x += 1;
+  redraw();
+}
