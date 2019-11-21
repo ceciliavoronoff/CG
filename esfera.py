@@ -15,27 +15,24 @@ def vertices(i,j):
     return x,y,z
 
 def Esfera():
-   glBegin(GL_QUAD_STRIP)
-   for i in range(resolucao+1):
+   for i in range(resolucao):
+      glBegin(GL_TRIANGLE_STRIP)
       for j in range(resolucao+1):
-         glColor3f(0,i,1+i)
+         glColor3f(1,0,(1+math.sin(j*2*math.pi/resolucao))/2)
          glVertex3fv(vertices(i,j))
          glVertex3fv(vertices(i+1,j))
-   glEnd()
- 
-  
+      glEnd()
+
 def desenha():
    glClear(GL_COLOR_BUFFER_BIT|GL_DEPTH_BUFFER_BIT)
-   #glPushMatrix()
    glRotatef(10,1,1,1)
    Esfera()
-   #glPopMatrix()
    glutSwapBuffers()
 
 
 def timer(i):
    glutPostRedisplay()
-   glutTimerFunc(50,timer,1)
+   glutTimerFunc(200,timer,1)
 
 
 # PROGRAMA PRINCIPAL
