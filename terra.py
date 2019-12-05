@@ -14,9 +14,9 @@ raio = 3
 def vertices(i,j):
     theta = i * math.pi/resolucao
     phi = j * 2 * math.pi/resolucao
-    x = raio * math.sin(theta) * math.cos(phi)
-    y = raio * math.cos(theta) * math.cos(phi)
-    z = raio * math.sin(phi)
+    x = raio * math.cos(theta) * math.sin(phi)
+    z = raio * math.cos(theta) * math.cos(phi)
+    y = raio * math.sin(theta)
     return x,y,z
  
 def LoadTextures():
@@ -66,18 +66,18 @@ def DrawGLScene():
     glRotatef(zrot,1.0,1.0,0.0) 
     glBindTexture(GL_TEXTURE_2D, texture[0])
  
-    for i in range(0,resolucao):
+    for i in range(-resolucao/2,resolucao/2):
         glBegin(GL_TRIANGLE_STRIP)
-        for j in range(0,resolucao+1):
-            glTexCoord2f(float (i)/resolucao,float (j)/resolucao)
+        for j in range(resolucao+1):
+            glTexCoord2f(float (j)/resolucao,float ((i+(resolucao/2)))/resolucao)
             glVertex3fv(vertices(i,j))
-            glTexCoord2f(float(i+1)/resolucao,float (j)/resolucao)
+            glTexCoord2f(float(j)/resolucao,float ((i+1+(resolucao/2)))/resolucao)
             glVertex3fv(vertices(i+1,j))
         glEnd()              
      
-    xrot  = xrot + 1                # X rotation
-    yrot = yrot + 1                 # Y rotation
-    zrot = zrot + 1                 # Z rotation
+    xrot  = xrot - 1                # X rotation
+    yrot = yrot - 1                 # Y rotation
+    zrot = zrot - 1                 # Z rotation
  
     glutSwapBuffers()
 
