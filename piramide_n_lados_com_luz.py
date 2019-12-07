@@ -161,7 +161,7 @@ def main():
     glutInit(sys.argv)
     glutInitDisplayMode(GLUT_DOUBLE | GLUT_RGBA | GLUT_DEPTH | GLUT_MULTISAMPLE)
     glutInitWindowSize(800,600)
-    glutCreateWindow("Cubo")
+    glutCreateWindow("Piramide")
     glutReshapeFunc(reshape)
     glutDisplayFunc(display)
     glutTimerFunc(50,timer,1)
