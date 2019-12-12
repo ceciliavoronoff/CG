@@ -6,33 +6,33 @@ quadric = 0
 GLUquadricObj *quadric
 quadric = gluNewQuadric()
 pino1 = [8, 7, 6, 5, 4, 3, 2, 1]
+
 def desenhaDiscos():
-   z = 6.6
-   glPushMatrix()
-   glTranslatef(0,0,z)
+   z = 4.5
    for i in pino1:
-      
-      gluCylinder(quadric,i/5,i/5,0.4,32,32)
-      z += 0.4
-   glPopMatrix()
+      glPushMatrix()
+      glTranslatef(0,0,z)
+      gluCylinder(quadric,i/5,i/5,0.5,32,32)
+      z -= 0.5
+      glPopMatrix()
 
 def desenhaPinos():
    glClear(GL_COLOR_BUFFER_BIT|GL_DEPTH_BUFFER_BIT)
    glPushMatrix()
    glRotatef(90,1,0,0)
    glTranslatef(0,0,-3)
-   gluCylinder(quadric,0.1,0.1,7.0,32,32)
+   gluCylinder(quadric,0.1,0.1,5.0,32,32)
    glPopMatrix()
    glPushMatrix()
    glRotatef(90,1,0,0)
    glTranslatef(-5,0,-3)
-   gluCylinder(quadric,0.1,0.1,7.0,32,32)
+   gluCylinder(quadric,0.1,0.1,5.0,32,32)
    desenhaDiscos()
    glPopMatrix()
    glPushMatrix()
    glRotatef(90,1,0,0)
    glTranslatef(5,0,-3)
-   gluCylinder(quadric,0.1,0.1,7.0,32,32)
+   gluCylinder(quadric,0.1,0.1,5.0,32,32)
    glPopMatrix()
    glutSwapBuffers()
 
