@@ -67,6 +67,75 @@ def desenhaPinos():
 def desenha():
     desenhaPinos()
    
+def jogada():
+   while (pilha1 or pilha2):
+      origem = glutKeyboardFunc()
+      destino = glutKeyboardFunc()
+      if origem == "1":
+         if pilha1:
+            ultimo1 = pilha1[-1]
+            if destino == "2":
+               if pilha2:
+                  ultimo2 = pilha2[-1]
+                  if ultimo1 < ultimo2:
+                     pilha2.append(ultimo1)
+                     pilha1.pop()  
+               elif not pilha2:
+                  pilha2.append(ultimo1)
+                  pilha1.pop()
+            if destino == "3":
+               if pilha3:
+                  ultimo3 = pilha3[-1]
+                  if ultimo1 < ultimo3:
+                     pilha3.append(ultimo1)
+                     pilha1.pop()  
+               elif not pilha3:
+                  pilha3.append(ultimo1)
+                  pilha1.pop()
+      if origem == "2":
+         if pilha2:
+            ultimo2 = pilha2[-1]
+            if destino == "1":
+               if pilha1:
+                  ultimo1 = pilha1[-1]
+                  if ultimo2 < ultimo1:
+                     pilha1.append(ultimo2)
+                     pilha2.pop()  
+               elif not pilha1:
+                  pilha1.append(ultimo2)
+                  pilha2.pop()
+            if destino == "3":
+               if pilha3:
+                  ultimo3 = pilha3[-1]
+                  if ultimo2 < ultimo3:
+                     pilha3.append(ultimo2)
+                     pilha2.pop()  
+               elif not pilha3:
+                  pilha3.append(ultimo2)
+                  pilha2.pop()
+      if origem == "3":
+         if pilha3:
+            ultimo3 = pilha3[-1]
+            if destino == "2":
+               if pilha2:
+                  ultimo2 = pilha2[-1]
+                  if ultimo3 < ultimo2:
+                     pilha2.append(ultimo3)
+                     pilha3.pop()  
+               elif not pilha2:
+                  pilha2.append(ultimo3)
+                  pilha3.pop()
+            if destino == "1":
+               if pilha1:
+                  ultimo1 = pilha1[-1]
+                  if ultimo3 < ultimo1:
+                     pilha1.append(ultimo3)
+                     pilha3.pop()  
+               elif not pilha1:
+                  pilha1.append(ultimo3)
+                  pilha3.pop()
+   desenha()
+
 def timer(i):
    glutPostRedisplay()
    glutTimerFunc(50,timer,1)
