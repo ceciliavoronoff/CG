@@ -8,6 +8,8 @@ quadric = gluNewQuadric()
 pino1 = [8, 7, 6, 5, 4, 3, 2, 1]
 pino2 = []
 pino3 = []
+origem = 0
+destino = 0
 
 def desenhaDiscosA():
    z = 4.5
@@ -66,79 +68,84 @@ def desenhaPinos():
 
 def desenha():
     desenhaPinos()
-   
-def jogada():
-   while (pilha1 or pilha2):
-      origem = glutKeyboardFunc()
-      destino = glutKeyboardFunc()
-      if origem == "1":
-         if pilha1:
-            ultimo1 = pilha1[-1]
-            if destino == "2":
-               if pilha2:
-                  ultimo2 = pilha2[-1]
-                  if ultimo1 < ultimo2:
-                     pilha2.append(ultimo1)
-                     pilha1.pop()  
-               elif not pilha2:
-                  pilha2.append(ultimo1)
-                  pilha1.pop()
-            if destino == "3":
-               if pilha3:
-                  ultimo3 = pilha3[-1]
-                  if ultimo1 < ultimo3:
-                     pilha3.append(ultimo1)
-                     pilha1.pop()  
-               elif not pilha3:
-                  pilha3.append(ultimo1)
-                  pilha1.pop()
-      if origem == "2":
-         if pilha2:
-            ultimo2 = pilha2[-1]
-            if destino == "1":
-               if pilha1:
-                  ultimo1 = pilha1[-1]
-                  if ultimo2 < ultimo1:
-                     pilha1.append(ultimo2)
-                     pilha2.pop()  
-               elif not pilha1:
-                  pilha1.append(ultimo2)
-                  pilha2.pop()
-            if destino == "3":
-               if pilha3:
-                  ultimo3 = pilha3[-1]
-                  if ultimo2 < ultimo3:
-                     pilha3.append(ultimo2)
-                     pilha2.pop()  
-               elif not pilha3:
-                  pilha3.append(ultimo2)
-                  pilha2.pop()
-      if origem == "3":
-         if pilha3:
-            ultimo3 = pilha3[-1]
-            if destino == "2":
-               if pilha2:
-                  ultimo2 = pilha2[-1]
-                  if ultimo3 < ultimo2:
-                     pilha2.append(ultimo3)
-                     pilha3.pop()  
-               elif not pilha2:
-                  pilha2.append(ultimo3)
-                  pilha3.pop()
-            if destino == "1":
-               if pilha1:
-                  ultimo1 = pilha1[-1]
-                  if ultimo3 < ultimo1:
-                     pilha1.append(ultimo3)
-                     pilha3.pop()  
-               elif not pilha1:
-                  pilha1.append(ultimo3)
-                  pilha3.pop()
-   desenha()
+    jogada()
 
-def timer(i):
+
+def keyboard_o(key, x, y):
+   origem = key
+   return origem
+
+def keyboard_d(key, x, y):
+   destino = key
+   return destino
+
+def jogada():
+   glutKeyboardFunc(keyboard_o)
+   glutKeyboardFunc(keyboard_d)
+   if origem == "1":
+      if pino1:
+         ultimo1 = pino1[-1]
+         if destino == "2":
+            if pino2:
+               ultimo2 = pino2[-1]
+               if ultimo1 < ultimo2:
+                  pino2.append(ultimo1)
+                  pino1.pop()  
+            elif not pino2:
+               pino2.append(ultimo1)
+               pino1.pop()
+         if destino == "3":
+            if pino3:
+               ultimo3 = pino3[-1]
+               if ultimo1 < ultimo3:
+                  pino3.append(ultimo1)
+                  pino1.pop()  
+            elif not pino3:
+               pino3.append(ultimo1)
+               pino1.pop()
+   if origem == "2":
+      if pino2:
+         ultimo2 = pino2[-1]
+         if destino == "1":
+            if pino1:
+               ultimo1 = pino1[-1]
+               if ultimo2 < ultimo1:
+                  pino1.append(ultimo2)
+                  pino2.pop()  
+            elif not pino1:
+               pino1.append(ultimo2)
+               pino2.pop()
+         if destino == "3":
+            if pino3:
+               ultimo3 = pino3[-1]
+               if ultimo2 < ultimo3:
+                  pino3.append(ultimo2)
+                  pino2.pop()  
+            elif not pino3:
+               pino3.append(ultimo2)
+               pino2.pop()
+   if origem == "3":
+      if pino3:
+         ultimo3 = pino3[-1]
+         if destino == "2":
+            if pino2:
+               ultimo2 = pino2[-1]
+               if ultimo3 < ultimo2:
+                  pino2.append(ultimo3)
+                  pino3.pop()  
+            elif not pino2:
+               pino2.append(ultimo3)
+               pino3.pop()
+         if destino == "1":
+            if pino1:
+               ultimo1 = pino1[-1]
+               if ultimo3 < ultimo1:
+                  pino1.append(ultimo3)
+                  pino3.pop()  
+            elif not pino1:
+               pino1.append(ultimo3)
+               pino3.pop()
    glutPostRedisplay()
-   glutTimerFunc(50,timer,1)
 
 # PROGRAMA PRINCIPAL
 glutInit(sys.argv)
@@ -151,5 +158,4 @@ glEnable(GL_DEPTH_TEST)
 glClearColor(0.,0.,0.,1.)
 gluPerspective(45,800.0/600.0,0.1,50.0)
 glTranslatef(0.0,0.0,-20)
-glutTimerFunc(50,timer,1)
 glutMainLoop()
