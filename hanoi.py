@@ -1,6 +1,7 @@
 from OpenGL.GLUT import *
 from OpenGL.GLU import *
 from OpenGL.GL import *
+#Para rodar esse código é necessário ter PyOpenGL instalado.
 
 ESCAPE = b'\x1b'
 pino1 = [8,7,6,5,4,3,2,1]
