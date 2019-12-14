@@ -2,14 +2,17 @@ from OpenGL.GLUT import *
 from OpenGL.GLU import *
 from OpenGL.GL import *
 
-quadric = 0
-GLUquadricObj *quadric
-quadric = gluNewQuadric()
-pino1 = [8, 7, 6, 5, 4, 3, 2, 1]
+ESCAPE = b'\x1b'
+pino1 = [8,7,6,5,4,3,2,1]
 pino2 = []
 pino3 = []
 origem = 0
 destino = 0
+movimento = 0
+window = 0
+um = b'1'
+dois = b'2'
+tres = b'3'
 
 def desenhaDiscosA():
    z = 4.5
@@ -17,7 +20,7 @@ def desenhaDiscosA():
       glPushMatrix()
       glTranslatef(0,0,z)
       glColor3f(0.5,0,1/i)
-      gluCylinder(quadric,i/4,i/4,0.5,32,32)
+      glutSolidCylinder(i/4,0.5,32,32)
       z -= 0.5
       glPopMatrix()
 
@@ -27,7 +30,7 @@ def desenhaDiscosB():
       glPushMatrix()
       glTranslatef(0,0,z)
       glColor3f(0.5,0,1/i)
-      gluCylinder(quadric,i/4,i/4,0.5,32,32)
+      glutSolidCylinder(i/4,0.5,32,32)
       z -= 0.5
       glPopMatrix()
    
@@ -37,51 +40,65 @@ def desenhaDiscosC():
       glPushMatrix()
       glTranslatef(0,0,z)
       glColor3f(0.5,0,1/i)
-      gluCylinder(quadric,i/4,i/4,0.5,32,32)
+      glutSolidCylinder(i/4,0.5,32,32)
       z -= 0.5
       glPopMatrix()
 
-def desenhaPinos():
+def desenha():
    glClear(GL_COLOR_BUFFER_BIT|GL_DEPTH_BUFFER_BIT)
    glPushMatrix()
    glRotatef(90,1,0,0)
    glTranslatef(0,0,-3)
    glColor3f(1,1,1)
-   gluCylinder(quadric,0.1,0.1,5.0,32,32)
+   glutSolidCylinder(0.1,5.0,32,32)
    desenhaDiscosB()
    glPopMatrix()
    glPushMatrix()
    glRotatef(90,1,0,0)
    glTranslatef(-5,0,-3)
    glColor3f(1,1,1)
-   gluCylinder(quadric,0.1,0.1,5.0,32,32)
+   glutSolidCylinder(0.1,5.0,32,32)
    desenhaDiscosA()
    glPopMatrix()
    glPushMatrix()
    glRotatef(90,1,0,0)
    glTranslatef(5,0,-3)
    glColor3f(1,1,1)
-   gluCylinder(quadric,0.1,0.1,5.0,32,32)
+   glutSolidCylinder(0.1,5.0,32,32)
    desenhaDiscosC()
    glPopMatrix()
    glutSwapBuffers()
 
-def desenha():
-    desenhaPinos()
-    jogada()
+def keyPressed(*args):
+   global movimento
+   if args[0] == um:
+      movimento = 1
+   if args[0] == dois:
+      movimento = 2
+   if args[0] == tres:
+      movimento = 3
+   if args[0] == ESCAPE:
+      glutDestroyWindow(window)
+      sys.exit()
 
-
-def keyboard_o(key, x, y):
-   origem = key
-   return origem
-
-def keyboard_d(key, x, y):
-   destino = key
-   return destino
+c = 0
+def movimentos():
+   global origem
+   global destino
+   global c
+   global movimento
+   glutKeyboardFunc(keyPressed)
+   print(movimento)
+   c += 1
+   if c == 1:
+      origem = movimento
+      
+   else:
+      destino = movimento
+      c = 0
+      jogada()
 
 def jogada():
-   glutKeyboardFunc(keyboard_o)
-   glutKeyboardFunc(keyboard_d)
    if origem == "1":
       if pino1:
          ultimo1 = pino1[-1]
@@ -145,17 +162,25 @@ def jogada():
             elif not pino1:
                pino1.append(ultimo3)
                pino3.pop()
-   glutPostRedisplay()
+   
 
-# PROGRAMA PRINCIPAL
-glutInit(sys.argv)
-glutInitDisplayMode(GLUT_DOUBLE | GLUT_RGBA | GLUT_DEPTH | GLUT_MULTISAMPLE)
-glutInitWindowSize(800,600)
-glutCreateWindow("Hanoi")
-glutDisplayFunc(desenha)
-glEnable(GL_MULTISAMPLE)
-glEnable(GL_DEPTH_TEST)
-glClearColor(0.,0.,0.,1.)
-gluPerspective(45,800.0/600.0,0.1,50.0)
-glTranslatef(0.0,0.0,-20)
-glutMainLoop()
+def timer(i):
+   glutPostRedisplay()
+   glutTimerFunc(50,timer,1)
+
+def main():
+   glutInit(sys.argv)
+   glutInitDisplayMode(GLUT_DOUBLE | GLUT_RGBA | GLUT_DEPTH | GLUT_MULTISAMPLE)
+   glutInitWindowSize(800,600)
+   window = glutCreateWindow("Hanoi")
+   glutDisplayFunc(desenha)
+   movimentos()
+   glEnable(GL_MULTISAMPLE)
+   glEnable(GL_DEPTH_TEST)
+   glClearColor(0.,0.,0.,1.)
+   gluPerspective(45,800.0/600.0,0.1,50.0)
+   glTranslatef(0.0,0.0,-20)
+   glutTimerFunc(50,timer,1)
+   glutMainLoop()
+
+main()
